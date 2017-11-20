@@ -5,18 +5,18 @@ using UnityEngine;
 public class BeyCollision : MonoBehaviour {
 
 	public Rigidbody2D rb;
-	public bool colidiu;
+
 	public float timer;
 
 	public class Combat {
 
-		public Beyblade attacker;
-		public Beyblade defender;
+		public Beyblade attacker, defender;
+		public float beyVel, otherBeyVel;
 
 		public Combat(GameObject bey, GameObject otherBey) {
 
-			float beyVel = bey.GetComponent<Rigidbody2D>().velocity.magnitude;
-			float otherBeyVel = otherBey.GetComponent<Rigidbody2D>().velocity.magnitude;
+			beyVel = bey.GetComponent<Rigidbody2D>().velocity.magnitude;
+			otherBeyVel = otherBey.GetComponent<Rigidbody2D>().velocity.magnitude;
 
 			if (beyVel > otherBeyVel) {
 
@@ -35,29 +35,35 @@ public class BeyCollision : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D> ();
 	}
 
-	void Update() {
-
-		if (colidiu) {
-
-			timer += Time.deltaTime;
-
-			if (timer > 2) {
-
-				colidiu = false;
-				timer = 0;
-			}
-		}
-	}
-
 	void OnCollisionEnter2D(Collision2D other) {
 
 		if (other.gameObject.tag == "Beyblade") {
 
-			colidiu = true;
-
 			Combat combat = new Combat (gameObject, other.gameObject);
 			combat.attacker.actualStamina -= 2;
 			combat.defender.actualStamina -= Damage (combat.attacker.atributos.attack, combat.defender.atributos.defense);
+
+			float x = other.transform.position.x - transform.position.x;
+			float y = other.transform.position.y - transform.position.y;
+
+			float rot = Mathf.Atan2 (y, x) * Mathf.Rad2Deg;
+
+			transform.rotation = Quaternion.Euler (0, 0, rot);
+
+			float attackerMultiplier = 10;
+			float defenderMultiplier = 10;
+
+			if (combat.defender.type == Attributes.Type.Defense)
+				defenderMultiplier /= 10;
+
+			float defenderImpact = (Random.Range (0.1f, 0.4f) / combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier;
+			float attackerImpact = (Random.Range (0.1f, 0.4f) / combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier;
+
+			print("Attacker: " + attackerImpact);
+			print ("Defender: " + defenderImpact);
+
+			combat.attacker.transform.Translate(new Vector2(-attackerImpact, 0));
+			combat.defender.transform.Translate(new Vector2(-defenderImpact, 0));
 		}
 	}
 

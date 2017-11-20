@@ -46,6 +46,15 @@ public class Beyblade : MonoBehaviour {
 
 	void Update() {
 
+		if (actualStamina <= 0) {
+			
+			actualStamina = 0;
+			ia.enabled = false;
+
+			if (playerControlled)
+				print ("Game Over");
+		}
+
 		if (ia != null) {
 
 			ia.RotationSpeed ((float)actualStamina, atributos.stamina);
