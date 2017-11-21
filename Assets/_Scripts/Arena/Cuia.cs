@@ -11,7 +11,7 @@ public class Cuia : MonoBehaviour {
 
 		EdgeCollider2D edgeCollider = gameObject.AddComponent<EdgeCollider2D> ();
 		numEdges = 60;
-		raio = 0.5f;
+		raio = 22;
 
 		Vector2[] pontos = new Vector2[numEdges];
 

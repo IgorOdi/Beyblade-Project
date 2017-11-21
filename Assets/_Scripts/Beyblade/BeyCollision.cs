@@ -5,8 +5,7 @@ using UnityEngine;
 public class BeyCollision : MonoBehaviour {
 
 	public Rigidbody2D rb;
-
-	public float timer;
+	public bool canDamage;
 
 	public class Combat {
 
@@ -32,6 +31,7 @@ public class BeyCollision : MonoBehaviour {
 
 	void Start() {
 
+		canDamage = true;
 		rb = GetComponent<Rigidbody2D> ();
 	}
 
@@ -40,8 +40,22 @@ public class BeyCollision : MonoBehaviour {
 		if (other.gameObject.tag == "Beyblade") {
 
 			Combat combat = new Combat (gameObject, other.gameObject);
-			combat.attacker.actualStamina -= 2;
-			combat.defender.actualStamina -= Damage (combat.attacker.atributos.attack, combat.defender.atributos.defense);
+			bool otherCanDamage = other.gameObject.GetComponent<BeyCollision> ().canDamage;
+
+			if (canDamage && otherCanDamage) {
+				#region Damage
+
+				int damageMultiplier = combat.attacker.type == Attributes.Type.Attack ? combat.attacker.atributos.attack * 4 : 1;
+
+				combat.attacker.actualStamina -= 3 * combat.defender.atributos.defense;
+				combat.defender.actualStamina -= Damage (combat.attacker.atributos.attack, combat.defender.atributos.defense) * damageMultiplier;
+
+				canDamage = false;
+				StartCoroutine(DamageCooldown());
+				#endregion
+			}
+
+			#region Impact
 
 			float x = other.transform.position.x - transform.position.x;
 			float y = other.transform.position.y - transform.position.y;
@@ -50,20 +64,16 @@ public class BeyCollision : MonoBehaviour {
 
 			transform.rotation = Quaternion.Euler (0, 0, rot);
 
-			float attackerMultiplier = 10;
-			float defenderMultiplier = 10;
+			float attackerMultiplier = combat.attacker.type == Attributes.Type.Attack ? 10 : 5;
+			float defenderMultiplier = combat.defender.type == Attributes.Type.Defense ? 10 : 2;
 
-			if (combat.defender.type == Attributes.Type.Defense)
-				defenderMultiplier /= 10;
+			float defenderImpact = (Random.Range (0.2f, 0.6f) / (combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier);
+			float attackerImpact = (Random.Range (0.2f, 0.6f) / (combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier);
 
-			float defenderImpact = (Random.Range (0.1f, 0.4f) / combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier;
-			float attackerImpact = (Random.Range (0.1f, 0.4f) / combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier;
-
-			print("Attacker: " + attackerImpact);
-			print ("Defender: " + defenderImpact);
-
-			combat.attacker.transform.Translate(new Vector2(-attackerImpact, 0));
+			combat.attacker.transform.Translate(new Vector2(-attackerImpact/2, 0));
 			combat.defender.transform.Translate(new Vector2(-defenderImpact, 0));
+
+			#endregion
 		}
 	}
 
@@ -71,9 +81,16 @@ public class BeyCollision : MonoBehaviour {
 
 		int dmg = attack - defense;
 
-		if (dmg < 0)
+		if (dmg <= 0)
 			dmg = 1;
-
+		
 		return dmg;
+	}
+
+	IEnumerator DamageCooldown() {
+
+		float dmgCool = GetComponent<Beyblade> ().atributos.dmgCool;
+		yield return new WaitForSeconds (dmgCool);
+		canDamage = true;
 	}
 }

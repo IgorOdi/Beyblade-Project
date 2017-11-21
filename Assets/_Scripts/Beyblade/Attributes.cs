@@ -17,4 +17,9 @@ public class Attributes {
 	public int defense;
 	public int stamina;
 	public float speed;
+
+	[HideInInspector]
+	public float dmgCool;
+	[HideInInspector]
+	public int staminaDecay;
 }

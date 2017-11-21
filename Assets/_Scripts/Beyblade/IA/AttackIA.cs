@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class AttackIA : IA {
 
-	private float timeCounter, searchCounter;
-	private float limitTimer;
-	private int passageCounter;
+	private float timeCounter, searchCounter, limitTimer;
 	private GameObject target;
 	private Vector2 randomTarget;
-	[SerializeField]
-	private GameObject[] beybladeList;
+	private List<Beyblade> beybladeList;
 
 	void Start() {
 
-		beybladeList = new GameObject[GameObject.FindGameObjectsWithTag ("Beyblade").Length];
+		beybladeList = new List<Beyblade> (GameObject.FindGameObjectsWithTag("Beyblade").Length);
 
-		for (int i = 0; i < beybladeList.Length; i++)
-			beybladeList[i] = GameObject.FindGameObjectsWithTag("Beyblade")[i];
+		foreach (GameObject bey in GameObject.FindGameObjectsWithTag("Beyblade")) {
 
+			if (bey.name != gameObject.name) {
+				Beyblade elegibleBey = bey.GetComponent<Beyblade> ();
+				beybladeList.Add (elegibleBey);
+			}
+		}
+
+		limitTimer = 2.5f;
 		randomTarget = SetRandomTarget ();
-		limitTimer = 4;
 	}
 
 	void Update() {
@@ -36,39 +38,54 @@ public class AttackIA : IA {
 			target = SetTarget ();
 			searchCounter = 0;
 		}
+
+		for (int i = 0; i < beybladeList.Count; i++)
+			if (beybladeList [i].actualStamina <= 10)
+				beybladeList.Remove (beybladeList [i]);
 	}
 
 	public Vector2 SetRandomTarget() {
 
-		int randomizador = Random.Range (0, 6);
+		float posX = Random.Range (1, 4);
+		float posY = Random.Range (1, 4);
+		Vector2 targetPos = new Vector2 (posX, posY);
 
-		if (randomizador >= 1) {
-
-			limitTimer = 10;
-			return new Vector2 (4, 0);
-		} else {
-
-			return new Vector2 ((int)Random.Range (-4, 4), (int)Random.Range (-4, 4));
-		}
+		return targetPos;
 	}
 
 	public GameObject SetTarget() {
 
-		GameObject targ = beybladeList[Random.Range(1, beybladeList.Length)];
+		Beyblade targ = beybladeList [Random.Range (0, beybladeList.Count)];
 
-		if (targ.gameObject.GetComponent<Beyblade> ().type == Attributes.Type.Defense) {
+		if (targ.type == Attributes.Type.Defense) {
 
 			int randomizador = Random.Range (0, 6);
 
 			if (randomizador < 2)
-				return targ;
+				return targ.gameObject;
 			else {
-
-				targ = beybladeList [Random.Range (1, beybladeList.Length)];
-				return targ;
+				
+				targ = beybladeList [Random.Range (0, beybladeList.Count)];
+				return targ.gameObject;
 			}
-		} else
-			return targ;
+		} else {
+
+			if (targ.type == Attributes.Type.Attack) {
+
+				int randomizador = Random.Range (0, 6);
+
+				if (randomizador < 2)
+					return targ.gameObject;
+				else {
+
+					targ = beybladeList [Random.Range (0, beybladeList.Count)];
+					return targ.gameObject;
+				}
+			} else {
+
+				return targ.gameObject;
+			}
+		}
 	}
 
 	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
@@ -76,32 +93,24 @@ public class AttackIA : IA {
 		if (target == null) {
 
 			transform.position = Vector2.Lerp (transform.position, randomTarget, Time.deltaTime);
-
-			if (transform.position == new Vector3 ((int)4, (int)0, 0)) {
-
-				timeCounter += Time.deltaTime * (_speed * ((float)_stamina / _maxStamina));
-
-				float x = Mathf.Cos (timeCounter) * 4;
-				float y = Mathf.Sin (timeCounter) * 4;
-
-				transform.position = new Vector2 (x, y);
-			}
-
 		} else {
 
 			float y = target.transform.position.y - transform.position.y;
 			float x = target.transform.position.x - transform.position.x;
 
-			float rot = Mathf.Atan2 (y, x) * Mathf.Rad2Deg;
+			float rot = (Mathf.Atan2 (y, x) * Mathf.Rad2Deg);
 
 			transform.rotation = Quaternion.Euler (0, 0, rot);
-			transform.Translate(new Vector2(0.15f, 0));
+			transform.Translate(new Vector2(0.05f * _speed, 0));
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D other) {
+	void OnCollsionEnter2D(Collision2D other) {
 
-		if (other.gameObject.tag == "Beyblade")
-			randomTarget = SetRandomTarget ();
+		if (other.gameObject.tag == "Beyblade") {
+
+			target = null;
+			searchCounter = 0;
+		}
 	}
 }
