@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d8df2e5ac2832e144abbaae10611b5f1
+timeCreated: 1511585069
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Robotaur Italic
+  fontNames:
+  - Robotaur Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

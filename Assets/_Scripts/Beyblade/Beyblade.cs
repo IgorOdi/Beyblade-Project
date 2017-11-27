@@ -9,11 +9,10 @@ public class Beyblade : MonoBehaviour {
 	public Attributes atributos;
 	public int actualStamina;
 	public float actualSpeed;
-	public int specialPoints;
 	public IA ia;
+	public BeySpecial special;
 
-	[HideInInspector]
-	public bool inGame;
+
 	[HideInInspector]
 	public Transform cuia;
 	private float timeCounter;
@@ -25,6 +24,7 @@ public class Beyblade : MonoBehaviour {
 		actualStamina = atributos.stamina;
 		actualSpeed = atributos.speed;
 		cuia = GameObject.FindGameObjectWithTag ("Cuia").transform;
+		special = GetComponent<BeySpecial> ();
 
 		if (playerControlled) {
 
@@ -53,44 +53,48 @@ public class Beyblade : MonoBehaviour {
 				break;
 			}
 		}
-
 	}
 
 	void Update() {
 
+		float distancia = Vector2.Distance (transform.position, cuia.position);
+
 		timeCounter += Time.deltaTime;
 
-		if (timeCounter >= 2) {
+		int staminaDecay = type == Attributes.Type.Defense ? 3 : 2;
+		int decayMultiply = (float)actualStamina / atributos.stamina > 0.2f ? 1 : 10;
 
-			int staminaDecay = type == Attributes.Type.Defense ? 4 : 2;
-			actualStamina -= staminaDecay;
+		if (timeCounter > 2) {
+			
+			actualStamina -= staminaDecay * decayMultiply;
 			timeCounter = 0;
 		}
 
-		float distancia = Vector2.Distance (transform.position, cuia.position);
+		if (actualStamina <= 0  || distancia > 5) {
 
-		if (actualStamina <= 10 || distancia > 5) {
-
-			inGame = false;
-			actualStamina = 0;
-			ia.enabled = false;
-
-			if (playerControlled)
-				print ("Game Over");
-			else
-				OutGame ();
+			OutGame ();
 		}
 	}
 
 	void OutGame() {
 
+		ia.enabled = false;
 		GetComponent<Collider2D> ().enabled = false;
 		GetComponentInChildren<SpriteRenderer> ().color = new Vector4 (1, 1, 1, 0.5f);
+
+		BeyManager beyManager = FindObjectOfType<BeyManager> ();
+		beyManager.RemoveInGameBey (gameObject);
+
+		if (playerControlled) { 
+			
+			Time.timeScale = 0;
+			FindObjectOfType<EndGame> ().Finish ("Derrota");
+		}
 	}
 
 	void FixedUpdate() {
 
-		if (ia != null && actualStamina > 10) {
+		if (ia != null && actualStamina > 0) {
 
 			ia.RotationSpeed ((float)actualStamina, atributos.stamina);
 			ia.Movimento (actualSpeed, atributos.stamina, actualStamina);

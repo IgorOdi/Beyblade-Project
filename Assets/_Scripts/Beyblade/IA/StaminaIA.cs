@@ -12,6 +12,7 @@ public class StaminaIA : IA {
 		float distance = 0;
 		distance = Vector2.Distance (transform.position, center);
 
+		_speed = _speed / 1.5f;
 		timeCounter += Time.deltaTime * (_speed * ((float)_stamina / _maxStamina));
 
 		float x = Mathf.Cos (timeCounter) * distance;

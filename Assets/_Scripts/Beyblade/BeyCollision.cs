@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class BeyCollision : MonoBehaviour {
 
+	[HideInInspector]
 	public Rigidbody2D rb;
-	public bool canDamage;
+	private bool canDamage;
+	[SerializeField]
+	private GameObject spark;
 
 	public class Combat {
 
@@ -37,7 +40,7 @@ public class BeyCollision : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 
-		if (other.gameObject.tag == "Beyblade") {
+		if (gameObject.tag == "Beyblade" && other.gameObject.tag == "Beyblade") {
 
 			Combat combat = new Combat (gameObject, other.gameObject);
 			bool otherCanDamage = other.gameObject.GetComponent<BeyCollision> ().canDamage;
@@ -46,9 +49,11 @@ public class BeyCollision : MonoBehaviour {
 				#region Damage
 
 				int damageMultiplier = combat.attacker.type == Attributes.Type.Attack ? combat.attacker.atributos.attack * 4 : 1;
+				damageMultiplier *= combat.defender.type == Attributes.Type.Stamina ? 4 : 1;
+				int defenderDamageMultiplier = combat.defender.type == Attributes.Type.Defense ? 4 : 1;
 
-				combat.attacker.actualStamina -= 3 * combat.defender.atributos.defense;
-				combat.defender.actualStamina -= Damage (combat.attacker.atributos.attack, combat.defender.atributos.defense) * damageMultiplier;
+				combat.attacker.actualStamina -= DefenderDamage (combat.defender.atributos.defense, defenderDamageMultiplier);
+				combat.defender.actualStamina -= AttackerDamage (combat.attacker.atributos.attack, combat.defender.atributos.defense, damageMultiplier);
 
 				canDamage = false;
 				StartCoroutine(DamageCooldown());
@@ -64,27 +69,65 @@ public class BeyCollision : MonoBehaviour {
 
 			transform.rotation = Quaternion.Euler (0, 0, rot);
 
-			float attackerMultiplier = combat.attacker.type == Attributes.Type.Attack ? 10 : 5;
-			float defenderMultiplier = combat.defender.type == Attributes.Type.Defense ? 10 : 2;
+			float attackerMultiplier = combat.attacker.type == Attributes.Type.Attack ? 8 : 5;
+			float defenderMultiplier = combat.defender.type == Attributes.Type.Defense ? 8 : 2;
 
-			float defenderImpact = (Random.Range (0.2f, 0.6f) / (combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier);
-			float attackerImpact = (Random.Range (0.2f, 0.6f) / (combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier);
+			float defenderImpact = (Random.Range (0.4f, 1.4f) / (combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier);
+			float attackerImpact = (Random.Range (0.4f, 1.4f) / (combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier);
 
-			combat.attacker.transform.Translate(new Vector2(-attackerImpact/2, 0));
-			combat.defender.transform.Translate(new Vector2(-defenderImpact, 0));
+			StartCoroutine(Impact(combat.attacker.gameObject, attackerImpact/2));
+			StartCoroutine(Impact(combat.defender.gameObject, defenderImpact));
+
+			#endregion
+
+			#region FX
+
+			spark.SetActive(true);
+
+			bool attackerSpark = attackerImpact > 0.5f ? true : false;
+			bool defenderSpark = defenderImpact > 0.5f ? true : false;
+			combat.attacker.gameObject.GetComponent<BeyCollision>().spark.GetComponent<Animator>().SetBool("Strong", attackerSpark);
+			combat.defender.gameObject.GetComponent<BeyCollision>().spark.GetComponent<Animator>().SetBool("Strong", defenderSpark);
+
+			foreach(ContactPoint2D hit in other.contacts) {
+
+				Vector2 faiscaPosition = hit.point;
+				spark.transform.position = faiscaPosition;
+			}
 
 			#endregion
 		}
 	}
 
-	public int Damage(int attack, int defense) {
+	public void DeactivateSpark() {
 
-		int dmg = attack - defense;
+		spark.SetActive (false);
+	}
 
-		if (dmg <= 0)
-			dmg = 1;
-		
+	public int DefenderDamage(int defense, int defenseMultiplier) {
+
+		int dmg = (defense * defenseMultiplier) / 2;
+		if (dmg < 0) dmg = 1;
 		return dmg;
+	}
+
+	public int AttackerDamage(int attack, int defense, int damageMultiplier) {
+
+		int dmg = ((attack - defense) + damageMultiplier)/2;
+		if (dmg <= 0) dmg = 1;
+		return dmg;
+	}
+
+	IEnumerator Impact(GameObject _bey, float _impact) {
+
+		int i = 0;
+
+		while (i < 6) {
+
+			_bey.transform.Translate (-_impact / 6, 0, 0);
+			i++;
+			yield return new WaitForSeconds (0.01f);
+		}
 	}
 
 	IEnumerator DamageCooldown() {

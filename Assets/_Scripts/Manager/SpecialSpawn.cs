@@ -1,0 +1,26 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SpecialSpawn : MonoBehaviour {
+
+	public SpecialPower power;
+
+	void Start() {
+
+		power.spawn = this;
+	}
+
+	public IEnumerator TempoSpawn() {
+
+		int randomizador = Random.Range (10, 30);
+		float x = Random.Range (-3, 3);
+		float y = Random.Range (-3, 3);
+		Vector2 spawnPoint = new Vector2 (x, y);
+
+		yield return new WaitForSeconds (randomizador);
+		power.gameObject.SetActive (true);
+		power.transform.position = spawnPoint;
+		StartCoroutine (power.Spawnou ());
+	}
+}
