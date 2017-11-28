@@ -16,9 +16,11 @@ public class Beyblade : MonoBehaviour {
 	[HideInInspector]
 	public Transform cuia;
 	private float timeCounter;
+	private bool inGame;
 
 	void Start() {
 
+		inGame = true;
 		gameObject.tag = "Beyblade";
 		gameObject.layer = 8;
 		actualStamina = atributos.stamina;
@@ -70,9 +72,10 @@ public class Beyblade : MonoBehaviour {
 			timeCounter = 0;
 		}
 
-		if (actualStamina <= 0  || distancia > 5) {
+		if ((actualStamina <= 0  || distancia > 5) && inGame) {
 
 			OutGame ();
+			inGame = false;
 		}
 	}
 

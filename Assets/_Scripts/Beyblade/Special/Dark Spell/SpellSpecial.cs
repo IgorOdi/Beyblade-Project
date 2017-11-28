@@ -17,6 +17,8 @@ public class SpellSpecial : BeySpecial {
 		
 	public override void SpecialFX () {
 
+		base.SpecialFX ();
+		canSpecial = false;
 		isRewinding = true;
 
 		for (int i = 0; i<onionSkin.Length; i++)

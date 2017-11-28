@@ -15,6 +15,8 @@ public class DefenseIA : IA {
 
 	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
 
+		base.Movimento (_speed, _maxStamina, _stamina);
+
 		float distance = Vector2.Distance (transform.position, center);
 
 		if (distance > 0.01f * _stamina) {

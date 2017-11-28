@@ -8,7 +8,7 @@ public class SpecialPower : MonoBehaviour {
 
 	public IEnumerator Spawnou() {
 
-		yield return new WaitForSeconds (4);
+		yield return new WaitForSeconds (2);
 		GetComponent<Collider2D> ().enabled = true;
 	}
 
@@ -17,8 +17,9 @@ public class SpecialPower : MonoBehaviour {
 		if (other.gameObject.tag == "Beyblade") {
 
 			other.GetComponent<BeySpecial> ().canSpecial = true;
-			StartCoroutine(spawn.TempoSpawn ());
+			GetComponent<Collider2D> ().enabled = false;
 			transform.position = spawn.transform.position;
+			spawn.Spawn ();
 			gameObject.SetActive (false);
 		}
 	}

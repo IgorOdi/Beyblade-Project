@@ -6,19 +6,22 @@ public class SpecialSpawn : MonoBehaviour {
 
 	public SpecialPower power;
 
-	void Start() {
+	public void Spawn() {
 
-		power.spawn = this;
+		StartCoroutine (TempoSpawn ());
 	}
 
 	public IEnumerator TempoSpawn() {
 
-		int randomizador = Random.Range (10, 30);
+		power.spawn = this;
+
+		int randomizador = Random.Range (15, 30);
+		yield return new WaitForSeconds (randomizador);
+
 		float x = Random.Range (-3, 3);
 		float y = Random.Range (-3, 3);
 		Vector2 spawnPoint = new Vector2 (x, y);
 
-		yield return new WaitForSeconds (randomizador);
 		power.gameObject.SetActive (true);
 		power.transform.position = spawnPoint;
 		StartCoroutine (power.Spawnou ());

@@ -17,7 +17,7 @@ public class BeySpecial : MonoBehaviour {
 
 	public virtual void SpecialFX() {
 
-
+		GetComponentInChildren<BeySoundManager> ().PlaySpecialSound ();
 	}
 
 	void OnCollisionEnter2D(Collision2D other) {

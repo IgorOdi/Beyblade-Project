@@ -7,9 +7,11 @@ public class BeyManager : MonoBehaviour {
 	public static string SelectedBey;
 	public List<GameObject> inGameBeys;
 	public GameObject indicator;
+	public HUDManager hudManager;
 
 	void Awake() {
 
+		hudManager = GetComponent<HUDManager> ();
 		DefinePlayerBey ();
 	}
 
@@ -44,9 +46,18 @@ public class BeyManager : MonoBehaviour {
 
 		for (int i = 0; i < inGameBeys.Count; i++) {
 
-			float x = Random.Range (-3, 3);
-			float y = Random.Range (-3, 3);
-			Vector2 spawnPoint = new Vector2 (x, y);
+			Vector2 spawnPoint;
+
+			if (inGameBeys [i].GetComponent<Beyblade> ().type == Attributes.Type.Attack) {
+				
+				spawnPoint = RandomPosition (-3, 3, false, 0);
+			} else if (inGameBeys [i].GetComponent<Beyblade> ().type == Attributes.Type.Defense) {
+
+				spawnPoint = RandomPosition (-1.5f, 1.5f, false, 0);
+			} else {
+
+				spawnPoint = RandomPosition (-3, 3, true, 1.5f);
+			}
 
 			GameObject spawnedBey = Instantiate (inGameBeys[i], spawnPoint, Quaternion.identity);
 			string beyName = spawnedBey.name;
@@ -60,8 +71,23 @@ public class BeyManager : MonoBehaviour {
 				indicator.transform.SetParent (spawnedBey.transform, false);
 			}
 		}
+			
+		hudManager.DefineBeys ();
+		GetComponent<SpecialSpawn> ().Spawn ();
+	}
 
-		StartCoroutine(GetComponent<SpecialSpawn> ().TempoSpawn ());
+	public Vector2 RandomPosition(float x, float y, bool reRoll, float limit) {
+
+		float _x = Random.Range(-x, x);
+		float _y = Random.Range (-y, y);
+
+		if ((reRoll) && (x < limit && x > -limit) || (y < limit && y > -limit)) {
+
+			return RandomPosition (-x, -y, reRoll, limit);
+		} else {
+
+			return new Vector2 (_x, _y);
+		}
 	}
 
 	public void RemoveInGameBey(GameObject _beyToRemove) {

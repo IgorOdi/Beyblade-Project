@@ -9,6 +9,8 @@ public class BullSpecial : BeySpecial {
 
 	public override void SpecialFX () {
 
+		base.SpecialFX ();
+
 		canSpecial = false;
 		aura.SetActive (true);
 		StartCoroutine (TempoMultiplicar ());
@@ -20,7 +22,13 @@ public class BullSpecial : BeySpecial {
 
 		var clone = Instantiate (gameObject, transform.position, Quaternion.identity);
 
+		Physics2D.IgnoreCollision(GetComponent<Collider2D>(), clone.GetComponent<Collider2D>());
+
 		if (GetComponent<PlayerControl> () != null) {
+
+			for (int i = 0; i < clone.transform.childCount; i++)
+				if (clone.transform.GetChild(i).name.Contains("PlayerIndicator"))
+					Destroy(clone.transform.GetChild(i).gameObject);
 
 			clone.GetComponent<Beyblade> ().playerControlled = false;
 			clone.GetComponent<BullSpecial> ().aura.SetActive (false);

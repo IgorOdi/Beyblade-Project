@@ -9,6 +9,7 @@ public class BeyCollision : MonoBehaviour {
 	private bool canDamage;
 	[SerializeField]
 	private GameObject spark;
+	private BeySoundManager beySound;
 
 	public class Combat {
 
@@ -36,6 +37,7 @@ public class BeyCollision : MonoBehaviour {
 
 		canDamage = true;
 		rb = GetComponent<Rigidbody2D> ();
+		beySound = GetComponentInChildren<BeySoundManager> ();
 	}
 
 	void OnCollisionEnter2D(Collision2D other) {
@@ -80,7 +82,7 @@ public class BeyCollision : MonoBehaviour {
 
 			#endregion
 
-			#region FX
+			#region VFX
 
 			spark.SetActive(true);
 
@@ -94,6 +96,12 @@ public class BeyCollision : MonoBehaviour {
 				Vector2 faiscaPosition = hit.point;
 				spark.transform.position = faiscaPosition;
 			}
+
+			#endregion
+
+			#region SFX
+
+			beySound.PlayCollisionSound();
 
 			#endregion
 		}

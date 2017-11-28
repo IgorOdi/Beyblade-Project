@@ -9,6 +9,9 @@ public class DragonSpecial : BeySpecial {
 
 	public override void SpecialFX () {
 
+		base.SpecialFX ();
+
+		canSpecial = false;
 		fire.SetActive (true);
 		StartCoroutine (TempoFire());
 	}

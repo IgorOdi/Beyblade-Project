@@ -23,7 +23,7 @@ public class AttackIA : IA {
 				beybladeList.Add (elegibleBey);
 			}
 		}
-			
+
 		limitTimer = Random.Range (2, 4);
 		randomTarget = SetRandomTarget ();
 	}
@@ -33,7 +33,7 @@ public class AttackIA : IA {
 		searchCounter += Time.deltaTime;
 
 		if (searchCounter > limitTimer && searchCounter < limitTimer + 2) {
-		
+				
 			target = null;
 		} else if (searchCounter > limitTimer + 2) {
 
@@ -97,6 +97,8 @@ public class AttackIA : IA {
 	}
 
 	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
+
+		base.Movimento (_speed, _maxStamina, _stamina);
 
 		if (target == null) {
 

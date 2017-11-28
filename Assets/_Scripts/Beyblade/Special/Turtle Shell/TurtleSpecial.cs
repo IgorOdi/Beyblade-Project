@@ -8,7 +8,9 @@ public class TurtleSpecial : BeySpecial {
 	private GameObject shield;
 
 	public override void SpecialFX () {
-	
+
+		base.SpecialFX ();
+		canSpecial = false;
 		shield.SetActive (true);
 		gameObject.tag = "Shield";
 		StartCoroutine (TempoShield ());
