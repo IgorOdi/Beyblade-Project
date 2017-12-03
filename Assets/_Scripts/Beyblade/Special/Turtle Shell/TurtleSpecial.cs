@@ -13,13 +13,22 @@ public class TurtleSpecial : BeySpecial {
 		canSpecial = false;
 		shield.SetActive (true);
 		gameObject.tag = "Shield";
-		StartCoroutine (TempoShield ());
+		StartCoroutine (SpecialTime ());
 	}
 
-	IEnumerator TempoShield() {
+	public override IEnumerator SpecialTime ()
+	{
+		base.SpecialTime ();
 
 		yield return new WaitForSeconds (5);
 		gameObject.tag = "Beyblade";
 		shield.SetActive (false);
 	}
+
+//	IEnumerator TempoShield() {
+//
+//		yield return new WaitForSeconds (5);
+//		gameObject.tag = "Beyblade";
+//		shield.SetActive (false);
+//	}
 }

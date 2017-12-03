@@ -21,7 +21,7 @@ public class DragonFire : MonoBehaviour {
 
 			if (damageTimer > 1) {
 				
-				beyblade.actualStamina -= 50;
+				beyblade.actualStamina -= 25;
 				damageTimer = 0;
 			}
 		}

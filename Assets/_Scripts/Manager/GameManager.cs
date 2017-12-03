@@ -6,60 +6,24 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
-	public static List<GameObject> beyblades;
-	public static List<GameObject> unlockedBeys;
-	public static List<string> unlockList = new List<string> {"Dragon Fury", "Dark Spell", "Bull Slap", "Turtle Shell"};
+	public List<GameObject> beyblades;
+	public static List<string> unlockList = new List<string> {"Dragon Fury", "Turtle Shell", "Glacial Searpent"};
+	public static MatchMode matchMode;
 
 	void Awake() {
 
 		if (instance == null)
 			instance = this;
 
-		LoadBeybladeList ();
+		StartGame ();
 		DontDestroyOnLoad (gameObject);
 	}
 
-	void LoadBeybladeList() {
+	public static void Unlock(string _beyName) {
 
-		beyblades = new List<GameObject> ();
-
-		Object[] beys = Resources.LoadAll ("Beyblades", typeof(GameObject));
-		foreach (GameObject bey in beys) {
-
-			beyblades.Add (bey);
-		}
-
-		UnlockBeyblades ();
-	}
-
-	void UnlockBeyblades() {
-
-		unlockedBeys = new List<GameObject> ();
-
-		foreach (GameObject bey in GameManager.beyblades) {
-
-			for (int i = 0; i < unlockList.Count; i++) {
-
-				if (bey.name == unlockList [i]) {
-
-					unlockedBeys.Add (bey);
-				}
-			}
-
-		}
-
-		StartGame ();
-	}
-
-	public void Unlock(string _beyName) {
-
-		foreach (GameObject bey in GameManager.beyblades) {
-
-			if (bey.name == _beyName) {
-
-				unlockedBeys.Add (bey);
-			}
-		}
+		foreach (GameObject bey in GameManager.instance.beyblades)
+			if (bey.name == _beyName)
+				unlockList.Add (bey.name);
 	}
 
 	void StartGame() {

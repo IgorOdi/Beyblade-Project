@@ -13,10 +13,12 @@ public class DragonSpecial : BeySpecial {
 
 		canSpecial = false;
 		fire.SetActive (true);
-		StartCoroutine (TempoFire());
+		StartCoroutine (SpecialTime());
 	}
 
-	IEnumerator TempoFire() {
+	public override IEnumerator SpecialTime ()
+	{
+		base.SpecialTime ();
 
 		yield return new WaitForSeconds (4);
 		fire.SetActive (false);

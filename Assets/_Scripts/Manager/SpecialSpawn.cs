@@ -15,7 +15,7 @@ public class SpecialSpawn : MonoBehaviour {
 
 		power.spawn = this;
 
-		int randomizador = Random.Range (15, 30);
+		int randomizador = Random.Range (15, 20);
 		yield return new WaitForSeconds (randomizador);
 
 		float x = Random.Range (-3, 3);

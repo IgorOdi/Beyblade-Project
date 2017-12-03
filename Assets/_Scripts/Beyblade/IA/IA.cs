@@ -17,21 +17,12 @@ public abstract class IA : MonoBehaviour {
 
 	public virtual void Movimento(float _speed, int _maxStamina, int _stamina) {
 
-		if (beySpecial.canSpecial) {
-
-			if (DiceRoller () >= 9)
-				beySpecial.SpecialFX ();
-		}
+		if (beySpecial.canSpecial)
+			beySpecial.SpecialFX ();
 	}
 
 	public void RotationSpeed(float _rotSpeed, float _maxSpeed) {
 
 		beyAnimator.speed = _rotSpeed/_maxSpeed;
-	}
-
-	public int DiceRoller() {
-
-		int dice = Random.Range (0, 11);
-		return dice;
 	}
 }

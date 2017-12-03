@@ -51,8 +51,9 @@ public class BeyCollision : MonoBehaviour {
 				#region Damage
 
 				int damageMultiplier = combat.attacker.type == Attributes.Type.Attack ? combat.attacker.atributos.attack * 4 : 1;
-				damageMultiplier *= combat.defender.type == Attributes.Type.Stamina ? 4 : 1;
-				int defenderDamageMultiplier = combat.defender.type == Attributes.Type.Defense ? 4 : 1;
+				damageMultiplier *= combat.defender.type == Attributes.Type.Stamina ? 2 : 1;
+				int defenderDamageMultiplier = combat.defender.type == Attributes.Type.Defense ? 6 : 1;
+				defenderDamageMultiplier *= combat.attacker.type == Attributes.Type.Stamina ? 2 : 1;
 
 				combat.attacker.actualStamina -= DefenderDamage (combat.defender.atributos.defense, defenderDamageMultiplier);
 				combat.defender.actualStamina -= AttackerDamage (combat.attacker.atributos.attack, combat.defender.atributos.defense, damageMultiplier);
@@ -74,8 +75,8 @@ public class BeyCollision : MonoBehaviour {
 			float attackerMultiplier = combat.attacker.type == Attributes.Type.Attack ? 8 : 5;
 			float defenderMultiplier = combat.defender.type == Attributes.Type.Defense ? 8 : 2;
 
-			float defenderImpact = (Random.Range (0.4f, 1.4f) / (combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier);
-			float attackerImpact = (Random.Range (0.4f, 1.4f) / (combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier);
+			float defenderImpact = (Random.Range (0.6f, 1.6f) / (combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier);
+			float attackerImpact = (Random.Range (0.6f, 1.6f) / (combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier);
 
 			StartCoroutine(Impact(combat.attacker.gameObject, attackerImpact/2));
 			StartCoroutine(Impact(combat.defender.gameObject, defenderImpact));

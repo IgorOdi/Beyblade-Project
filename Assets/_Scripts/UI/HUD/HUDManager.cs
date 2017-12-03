@@ -17,21 +17,13 @@ public class HUDManager : MonoBehaviour {
 
 		beys = new Beyblade[beyManager.inGameBeys.Count];
 
-		for (int i = 0; i < beyManager.inGameBeys.Count; i++)
-			beys[i] = beyManager.inGameBeys [i].GetComponent<Beyblade> ();
-
-		DefineHUDSprite ();
-	}
-
-	void Update() {
-
 		for (int i = 0; i < beyManager.inGameBeys.Count; i++) {
 			
-			staminaBar[i].fillAmount = (float)beys[i].actualStamina / beys[i].atributos.stamina;
-
-			bool activeSpark = beys[i].GetComponent<BeySpecial> ().canSpecial;
-			sparkHUD[i].SetActive (activeSpark);
+			staminaBar [i].transform.parent.gameObject.SetActive (true);
+			beys [i] = beyManager.inGameBeys [i].GetComponent<Beyblade> ();
 		}
+
+		DefineHUDSprite ();
 	}
 
 	void DefineHUDSprite() {
@@ -39,6 +31,17 @@ public class HUDManager : MonoBehaviour {
 		for (int i = 0; i < beyManager.inGameBeys.Count; i++) {
 			SpriteRenderer beyRend = beyManager.inGameBeys [i].GetComponentInChildren<SpriteRenderer> ();
 			hudBey[i].sprite = beyRend.sprite;
+		}
+	}
+
+	void Update() {
+
+		for (int i = 0; i < beyManager.inGameBeys.Count; i++) {
+
+			staminaBar[i].fillAmount = (float)beys[i].actualStamina / beys[i].atributos.stamina;
+
+			bool activeSpark = beys[i].GetComponent<BeySpecial> ().canSpecial;
+			sparkHUD[i].SetActive (activeSpark);
 		}
 	}
 }

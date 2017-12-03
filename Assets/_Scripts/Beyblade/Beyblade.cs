@@ -12,11 +12,12 @@ public class Beyblade : MonoBehaviour {
 	public IA ia;
 	public BeySpecial special;
 
-
 	[HideInInspector]
 	public Transform cuia;
 	private float timeCounter;
 	private bool inGame;
+	private int decayMultiply;
+	private float distance;
 
 	void Start() {
 
@@ -27,52 +28,30 @@ public class Beyblade : MonoBehaviour {
 		actualSpeed = atributos.speed;
 		cuia = GameObject.FindGameObjectWithTag ("Cuia").transform;
 		special = GetComponent<BeySpecial> ();
+	}
+		
+	void FixedUpdate() {
 
-		if (playerControlled) {
+		if (ia != null || actualStamina > 0) {
 
-			ia = gameObject.AddComponent<PlayerControl> ();
-		} else {
-			switch (type) {
-
-			case Attributes.Type.Attack:
-				ia = gameObject.AddComponent<AttackIA> ();
-				atributos.dmgCool = 0.75f;
-				break;
-
-			case Attributes.Type.Defense:
-				ia = gameObject.AddComponent<DefenseIA> ();
-				atributos.dmgCool = 1.5f;
-				break;
-
-			case Attributes.Type.Stamina:
-				ia = gameObject.AddComponent<StaminaIA> ();
-				atributos.dmgCool = 0.5f;
-				break;
-
-			case Attributes.Type.Balance:
-				ia = gameObject.AddComponent<BalanceIA> ();
-				atributos.dmgCool = 0.75f;
-				break;
-			}
+			ia.RotationSpeed ((float)actualStamina, atributos.stamina);
+			ia.Movimento (actualSpeed, atributos.stamina, actualStamina);
 		}
 	}
 
 	void Update() {
 
-		float distancia = Vector2.Distance (transform.position, cuia.position);
-
 		timeCounter += Time.deltaTime;
-
-		int staminaDecay = type == Attributes.Type.Defense ? 3 : 2;
-		int decayMultiply = (float)actualStamina / atributos.stamina > 0.2f ? 1 : 10;
+		distance = Vector2.Distance (transform.position, cuia.position);
+		decayMultiply = (float)actualStamina / atributos.stamina > 0.2f ? 1 : 2;
 
 		if (timeCounter > 2) {
 			
-			actualStamina -= staminaDecay * decayMultiply;
+			actualStamina -= atributos.staminaDecay * decayMultiply;
 			timeCounter = 0;
 		}
 
-		if ((actualStamina <= 0  || distancia > 5) && inGame) {
+		if ((actualStamina <= 0  || distance > 5) && inGame) {
 
 			OutGame ();
 			inGame = false;
@@ -87,20 +66,5 @@ public class Beyblade : MonoBehaviour {
 
 		BeyManager beyManager = FindObjectOfType<BeyManager> ();
 		beyManager.RemoveInGameBey (gameObject);
-
-		if (playerControlled) { 
-			
-			Time.timeScale = 0;
-			FindObjectOfType<EndGame> ().Finish ("Derrota");
-		}
-	}
-
-	void FixedUpdate() {
-
-		if (ia != null && actualStamina > 0) {
-
-			ia.RotationSpeed ((float)actualStamina, atributos.stamina);
-			ia.Movimento (actualSpeed, atributos.stamina, actualStamina);
-		}
 	}
 }

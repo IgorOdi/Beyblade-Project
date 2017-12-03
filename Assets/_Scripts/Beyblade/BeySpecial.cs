@@ -20,6 +20,11 @@ public class BeySpecial : MonoBehaviour {
 		GetComponentInChildren<BeySoundManager> ().PlaySpecialSound ();
 	}
 
+	public virtual IEnumerator SpecialTime() {
+
+		yield return null;
+	}
+
 	void OnCollisionEnter2D(Collision2D other) {
 
 		if (other.gameObject.tag == "PowerUP") {

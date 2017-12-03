@@ -6,12 +6,12 @@ public class StaminaIA : IA {
 
 	private Vector2 center = new Vector2 (0, 0);
 	private float timeCounter;
+	float distance;
 
 	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
 
 		base.Movimento (_speed, _maxStamina, _stamina);
 
-		float distance = 0;
 		distance = Vector2.Distance (transform.position, center);
 
 		_speed = _speed / 1.5f;

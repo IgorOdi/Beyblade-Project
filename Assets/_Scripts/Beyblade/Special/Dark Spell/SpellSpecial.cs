@@ -33,7 +33,7 @@ public class SpellSpecial : BeySpecial {
 
 	void Record() {
 
-		if (info.Count > (Mathf.Round (3f / Time.fixedDeltaTime)) - 1)
+		if (info.Count > (Mathf.Round (5f / Time.fixedDeltaTime)) - 1)
 			info.RemoveAt (info.Count - 1);
 
 		RewindInfo rewindInfo = new RewindInfo (transform.position, bey.actualStamina);

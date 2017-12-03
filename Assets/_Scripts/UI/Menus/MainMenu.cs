@@ -9,41 +9,45 @@ public class MainMenu : MonoBehaviour {
 	[SerializeField]
 	private Button[] button;
 	[SerializeField]
-	private GameObject[] telas;
+	private GameObject[] screen;
 
 	void Start() {
 
-		button = new Button[3];
-
-		for (int i = 0; i < button.Length; i++)
-			button [i] = GetComponentsInChildren<Button> () [i];
-
-		button [0].onClick.AddListener (Jogar);
-		button [1].onClick.AddListener (Instru);
-		button [2].onClick.AddListener (Creditos);
+		button [0].onClick.AddListener (Campanha);
+		button [1].onClick.AddListener (Exibicao);
+		button [2].onClick.AddListener (Instru);
+		button [3].onClick.AddListener (Creditos);
 	}
 
-	void Jogar() {
+	void Campanha() {
 
-		for (int i = 0; i < telas.Length; i++)
-			telas [i].SetActive (false);
+		for (int i = 0; i < screen.Length; i++)
+			screen [i].SetActive (false);
 
-		telas [1].SetActive (true);
+		screen [1].SetActive (true);
+	}
+
+	void Exibicao() {
+
+		for (int i = 0; i < screen.Length; i++)
+			screen [i].SetActive (false);
+
+		screen [2].SetActive (true);
 	}
 
 	void Instru() {
 
-		for (int i = 0; i < telas.Length; i++)
-			telas [i].SetActive (false);
+		for (int i = 0; i < screen.Length; i++)
+			screen [i].SetActive (false);
 
-		telas [2].SetActive (true);
+		screen [3].SetActive (true);
 	}
 
 	void Creditos() {
 
-		for (int i = 0; i < telas.Length; i++)
-			telas [i].SetActive (false);
+		for (int i = 0; i < screen.Length; i++)
+			screen [i].SetActive (false);
 
-		telas [3].SetActive (true);
+		screen [4].SetActive (true);
 	}
 }

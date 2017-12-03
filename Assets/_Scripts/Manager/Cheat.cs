@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Cheat : MonoBehaviour {
 
 	public Toggle[] togglesToCheat;
+	[SerializeField]
 	private BeySelector selector;
-	public GameObject mudCrab;
 
 	void Awake() {
 
@@ -16,21 +16,13 @@ public class Cheat : MonoBehaviour {
 		for (int i = 0; i < togglesToCheat.Length; i++) {
 			
 			togglesToCheat [i] = GetComponentsInChildren<Toggle> () [i];
-			togglesToCheat [i].onValueChanged.AddListener (delegate {
-
-				VerifyCheatEnabled ();
-			});
+			togglesToCheat [i].onValueChanged.AddListener (delegate { VerifyCheatEnabled (); });
 		}
 	}
 
 	void VerifyCheatEnabled() {
 
-		if (FindObjectOfType<BeySelector>() != null)
-			selector = FindObjectOfType<BeySelector> ();
-
-		if (togglesToCheat [0].isOn && togglesToCheat [1].isOn && togglesToCheat [2].isOn) {
-			selector.beys.Add (mudCrab);
-			GameManager.instance.Unlock ("Mud Crab");
-		}
+		if (togglesToCheat [0].isOn && togglesToCheat [1].isOn && togglesToCheat [2].isOn)
+			GameManager.Unlock ("Mud Crab");
 	}
 }

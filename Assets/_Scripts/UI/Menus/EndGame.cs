@@ -9,13 +9,25 @@ public class EndGame : MonoBehaviour {
 	[SerializeField]
 	private Image tela;
 	[SerializeField]
+	private GameObject KO;
+	[SerializeField]
 	private Sprite[] telas;
 	[SerializeField]
 	private Button[] btn;
 	[SerializeField]
 	private AudioSource BGM;
 
-	public void Finish(string gameStatus) {
+	public IEnumerator Finish(string gameStatus) {
+
+		Time.timeScale = 0.25f;
+
+		yield return new WaitForSeconds (0.125f);
+
+		KO.SetActive (true);
+
+		yield return new WaitForSeconds (0.5f);
+
+		KO.SetActive (false);
 
 		tela.gameObject.SetActive (true);
 		btn [0].gameObject.SetActive (true);

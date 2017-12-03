@@ -2,44 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BeySelector : MonoBehaviour {
 
-	public List<GameObject> beys;
-	private int selectedBey;
+	public BeybladeInfo selectedBey;
 	[SerializeField]
-	private Button[] botoes;
+	private Button confirmButton;
+
+	public SelectedInfo info;
 
 	void Start() {
 
-		botoes [0].onClick.AddListener (PreviousBey);
-		botoes [1].onClick.AddListener (NextBey);
-		botoes [2].onClick.AddListener (Iniciar);
+		confirmButton.onClick.AddListener (Iniciar);
 	}
 
-	void PreviousBey() {
+	public void Select() {
 
-		for (int i = 0; i < beys.Count; i++)
-			beys [i].SetActive (false);
+		selectedBey = EventSystem.current.currentSelectedGameObject.GetComponent<BeybladeInfo>();
 
-		if (selectedBey > 0) selectedBey--;
-		else selectedBey = beys.Count-1;
-		beys [selectedBey].SetActive (true);
-	}
+		info.name = selectedBey.name;
+		info.type = selectedBey.type;
+		info.sprite = selectedBey.sprite;
+		info.attributes = selectedBey.attributes;
 
-	void NextBey() {
-
-		for (int i = 0; i < beys.Count; i++)
-			beys [i].SetActive (false);
-
-		if (selectedBey < beys.Count-1) selectedBey++;
-		else selectedBey = 0;
-		beys [selectedBey].SetActive (true);
+		info.Atualiza (selectedBey.unlocked);
 	}
 
 	void Iniciar() {
 
-		BeyManager.SelectedBey = beys [selectedBey].name;
-		UnityEngine.SceneManagement.SceneManager.LoadScene ("Game");
+		if (selectedBey.unlocked) {
+			BeyManager.SelectedBey = selectedBey.gameObject.name;
+			UnityEngine.SceneManagement.SceneManager.LoadScene ("Game");
+		}
 	}
 }
