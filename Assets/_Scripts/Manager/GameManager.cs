@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 			instance = this;
 
 		StartGame ();
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		DontDestroyOnLoad (gameObject);
 	}
 

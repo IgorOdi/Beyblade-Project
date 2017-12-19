@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class SelectedInfo : MonoBehaviour {
 
 	public string name;
+	public string specialDesc;
 	public Image sprite;
 	public Attributes.Type type;
 	public Attributes attributes;
 
 	public Text nameText;
 	public Text typeText;
+	public Text specialDescText;
 	public Image spriteImage;
 	public Image[] attributesImage;
 
@@ -25,6 +27,7 @@ public class SelectedInfo : MonoBehaviour {
 
 		nameText.text = _unlocked ? name : "???";
 		typeText.text = _unlocked ? type.ToString () : "???";
+		specialDescText.text = _unlocked ? specialDesc : "???";
 		spriteImage.sprite = sprite.sprite;
 		spriteImage.color = _unlocked ? Color.white : Color.black;
 

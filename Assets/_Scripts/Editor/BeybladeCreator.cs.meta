@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c5ffb74cdbc260747a152b0314339500
+timeCreated: 1513703747
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - BeybladeBase: {fileID: 1866829061011888, guid: 7e1ac334cd81db848a18f64858ef2ac6,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

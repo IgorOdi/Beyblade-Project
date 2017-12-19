@@ -12,7 +12,7 @@ public class BeySelector : MonoBehaviour {
 
 	public SelectedInfo info;
 
-	void Start() {
+	void OnEnable() {
 
 		confirmButton.onClick.AddListener (Iniciar);
 	}
@@ -23,6 +23,7 @@ public class BeySelector : MonoBehaviour {
 
 		info.name = selectedBey.name;
 		info.type = selectedBey.type;
+		info.specialDesc = selectedBey.specialDesc;
 		info.sprite = selectedBey.sprite;
 		info.attributes = selectedBey.attributes;
 

@@ -11,6 +11,8 @@ public class BeybladeInfo: MonoBehaviour {
 	public Image sprite;
 	public Attributes.Type type;
 	public Attributes attributes;
+	[TextArea(1, 10)]
+	public string specialDesc;
 	public bool unlocked;
 
 	void OnEnable() {
