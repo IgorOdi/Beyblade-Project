@@ -102,7 +102,7 @@ public class AttackIA : IA {
 
 		if (target == null) {
 
-			transform.position = Vector2.Lerp (transform.position, randomTarget, Time.deltaTime);
+			transform.position = Vector2.Lerp (transform.position, randomTarget, Time.deltaTime * _speed);
 		} else {
 
 			float y = target.transform.position.y - transform.position.y;

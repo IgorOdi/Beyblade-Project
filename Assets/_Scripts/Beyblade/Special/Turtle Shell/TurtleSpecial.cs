@@ -10,7 +10,6 @@ public class TurtleSpecial : BeySpecial {
 	public override void SpecialFX () {
 
 		base.SpecialFX ();
-		canSpecial = false;
 		shield.SetActive (true);
 		gameObject.tag = "Shield";
 		StartCoroutine (SpecialTime ());
@@ -24,11 +23,5 @@ public class TurtleSpecial : BeySpecial {
 		gameObject.tag = "Beyblade";
 		shield.SetActive (false);
 	}
-
-//	IEnumerator TempoShield() {
-//
-//		yield return new WaitForSeconds (5);
-//		gameObject.tag = "Beyblade";
-//		shield.SetActive (false);
-//	}
+		
 }

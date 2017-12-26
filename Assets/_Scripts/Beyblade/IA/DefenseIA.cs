@@ -21,7 +21,7 @@ public class DefenseIA : IA {
 
 		if (distance > 0.01f * _stamina) {
 
-			transform.position = Vector2.Lerp (transform.position, center, Time.deltaTime * 2);
+			transform.position = Vector2.Lerp (transform.position, center, Time.deltaTime * _speed);
 			gameObject.layer = 9;
 		} else {
 

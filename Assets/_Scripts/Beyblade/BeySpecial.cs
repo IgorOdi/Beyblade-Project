@@ -18,6 +18,7 @@ public class BeySpecial : MonoBehaviour {
 	public virtual void SpecialFX() {
 
 		GetComponentInChildren<BeySoundManager> ().PlaySpecialSound ();
+		canSpecial = false;
 	}
 
 	public virtual IEnumerator SpecialTime() {

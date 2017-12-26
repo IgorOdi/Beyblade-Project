@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BeyManager : MonoBehaviour {
 
+	public static BeyManager instance;
 	public static string SelectedBey;
 	public List<GameObject> inGameBeys;
 	public GameObject[] indicator;
@@ -13,6 +14,9 @@ public class BeyManager : MonoBehaviour {
 	private int winCondition;
 
 	void Awake() {
+
+		if (instance == null)
+			instance = this;
 
 		hudManager = GetComponent<HUDManager> ();
 		DefinePlayerBey ();

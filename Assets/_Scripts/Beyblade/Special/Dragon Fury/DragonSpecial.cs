@@ -11,7 +11,6 @@ public class DragonSpecial : BeySpecial {
 
 		base.SpecialFX ();
 
-		canSpecial = false;
 		fire.SetActive (true);
 		StartCoroutine (SpecialTime());
 	}

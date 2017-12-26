@@ -11,7 +11,6 @@ public class BullSpecial : BeySpecial {
 
 		base.SpecialFX ();
 
-		canSpecial = false;
 		aura.SetActive (true);
 		StartCoroutine (SpecialTime ());
 	}
