@@ -36,6 +36,7 @@ public class BullSpecial : BeySpecial {
 			Destroy (clone.GetComponent<PlayerControl> ());
 		}
 
+		clone.gameObject.AddComponent<BalanceIA> ();
 		aura.SetActive (false);
 
 		Destroy (clone.gameObject, 10);

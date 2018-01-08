@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StaminaIA : IA {
 
-	private Vector2 center = new Vector2 (0, 0);
 	private float timeCounter;
 	float distance;
 
@@ -15,6 +14,7 @@ public class StaminaIA : IA {
 		distance = Vector2.Distance (transform.position, center);
 
 		_speed = _speed / 1.5f;
+
 		timeCounter += Time.deltaTime * (_speed * ((float)_stamina / _maxStamina));
 
 		float x = Mathf.Cos (timeCounter) * distance;

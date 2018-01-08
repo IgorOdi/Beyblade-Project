@@ -5,7 +5,6 @@ using UnityEngine;
 public class DefenseIA : IA {
 
 	private Vector3 startPosition;
-	private Vector3 center;
 	private float timer;
 
 	void Start() {

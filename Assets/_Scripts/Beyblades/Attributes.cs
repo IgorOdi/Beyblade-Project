@@ -10,7 +10,9 @@ public class Attributes {
 		Attack,
 		Defense,
 		Stamina,
-		Balance
+		AtkDef,
+		AtkSta,
+		DefSta
 	}
 
 	public int attack;

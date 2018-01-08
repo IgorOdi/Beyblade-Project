@@ -7,6 +7,7 @@ public abstract class IA : MonoBehaviour {
 	public Rigidbody2D rb;
 	public Animator beyAnimator;
 	protected BeySpecial beySpecial;
+	protected Vector2 center = new Vector2 (0, 0);
 
 	void Awake() {
 

@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour {
 		StartGame ();
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		DontDestroyOnLoad (gameObject);
+
+		Unlock ("Bull Slap");
+		Unlock ("Bear Claws");
+		Unlock ("Metalcrusher Mammoth");
+		Unlock ("Dragonfly Dawn");
+		Unlock ("Mud Crab");
 	}
 
 	public static void Unlock(string _beyName) {

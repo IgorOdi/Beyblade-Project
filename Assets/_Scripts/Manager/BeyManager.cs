@@ -122,9 +122,19 @@ public class BeyManager : MonoBehaviour {
 					beyCode.atributos.dmgCool = 0.15f;
 					break;
 
-				case Attributes.Type.Balance:
-					beyCode.ia = gameObject.AddComponent<BalanceIA> ();
-					beyCode.atributos.dmgCool = 0.25f;
+				case Attributes.Type.AtkDef:
+					beyCode.ia = spawnedBey.AddComponent<AtkDefIA> ();
+					beyCode.atributos.dmgCool = 0.35f;
+					break;
+
+				case Attributes.Type.AtkSta:
+					beyCode.ia = spawnedBey.AddComponent<AtkStaIA> ();
+					beyCode.atributos.dmgCool = 0.15f;
+					break;
+
+				case Attributes.Type.DefSta:
+					beyCode.ia = spawnedBey.AddComponent<DefStaIA> ();
+					beyCode.atributos.dmgCool = 0.35f;
 					break;
 				}
 			}
