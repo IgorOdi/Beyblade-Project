@@ -111,7 +111,7 @@ public class AttackIA : IA {
 			float rot = (Mathf.Atan2 (y, x) * Mathf.Rad2Deg);
 
 			transform.rotation = Quaternion.Euler (0, 0, rot);
-			transform.Translate(new Vector2(0.025f * _speed, 0));
+			transform.Translate(new Vector2(Time.deltaTime * _speed, 0));
 		}
 	}
 }

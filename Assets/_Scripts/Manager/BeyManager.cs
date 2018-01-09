@@ -29,16 +29,19 @@ public class BeyManager : MonoBehaviour {
 			if (bey.name == SelectedBey)
 				inGameBeys.Add (bey);
 		}
-			
-		List<int> validChoices = new List<int> ();
 
-		for (int i = 0; i < GameManager.unlockList.Count; i++)
-			validChoices.Add (i);
+		List<GameObject> validChoices = new List<GameObject> ();
+
+		foreach (GameObject bey in GameManager.instance.beyblades) {
+
+			if (GameManager.unlockList.Contains (bey.name) && bey.name != SelectedBey)
+				validChoices.Add (bey);
+		}
 
 		DefineGameBeys (validChoices);
 	}
 
-	void DefineGameBeys(List<int> _validChoices) {
+	void DefineGameBeys(List<GameObject> _validChoices) {
 
 		switch (GameManager.matchMode.singleplayerMode) {
 
@@ -62,12 +65,10 @@ public class BeyManager : MonoBehaviour {
 
 		while (inGameBeys.Count < beyNumber) {
 
-			int randomizador = _validChoices[Random.Range(0, _validChoices.Count)];
-
-			if (GameManager.unlockList[randomizador] != SelectedBey)
-				inGameBeys.Add(GameManager.instance.beyblades[randomizador]);
-
-			_validChoices.Remove (randomizador);
+			int random = Random.Range (0, _validChoices.Count);
+			GameObject beyToAdd = _validChoices [random];
+			inGameBeys.Add (beyToAdd);
+			_validChoices.Remove (beyToAdd);
 		}
 
 		ActiveBeys ();
@@ -89,7 +90,7 @@ public class BeyManager : MonoBehaviour {
 
 				spawnPoint = new Vector2 (4, 0);
 			}
-
+				
 			GameObject spawnedBey = Instantiate (inGameBeys[i], spawnPoint, Quaternion.identity);
 			spawnedBey.name = spawnedBey.name.Replace ("(Clone)", "");
 			inGameBeys.RemoveAt (i);
@@ -171,5 +172,4 @@ public class BeyManager : MonoBehaviour {
 		else if (inGameBeys.Count <= winCondition)
 			StartCoroutine(endGame.Finish ("Vitória"));
 	}
-
 }

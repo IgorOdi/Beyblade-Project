@@ -15,15 +15,17 @@ public class GameManager : MonoBehaviour {
 		if (instance == null)
 			instance = this;
 
-		StartGame ();
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		DontDestroyOnLoad (gameObject);
 
-		Unlock ("Bull Slap");
-		Unlock ("Bear Claws");
-		Unlock ("Metalcrusher Mammoth");
-		Unlock ("Dragonfly Dawn");
-		Unlock ("Mud Crab");
+//		Unlock ("Bull Slap");
+//		Unlock ("Bear Claws");
+//		Unlock ("Metalcrusher Mammoth");
+//		Unlock ("Dragonfly Dawn");
+		Unlock("Otter Dive");
+//		Unlock ("Mud Crab");
+
+		StartGame ();
 	}
 
 	public static void Unlock(string _beyName) {

@@ -9,6 +9,7 @@ public class AtkDefIA : IA {
 	private GameObject target;
 	private Vector2 randomTarget;
 	private List<Beyblade> beybladeList;
+	private Vector2 point;
 
 	void Start() {
 
@@ -24,7 +25,7 @@ public class AtkDefIA : IA {
 			}
 		}
 
-		limitTimer = Random.Range (8, 12);
+		limitTimer = Random.Range (4, 8);
 		randomTarget = SetRandomTarget ();
 	}
 
@@ -111,7 +112,7 @@ public class AtkDefIA : IA {
 			float rot = (Mathf.Atan2 (y, x) * Mathf.Rad2Deg);
 
 			transform.rotation = Quaternion.Euler (0, 0, rot);
-			transform.Translate(new Vector2(0.025f * _speed, 0));
+			transform.Translate(new Vector2(Time.deltaTime * _speed, 0));
 		}
 	}
 }

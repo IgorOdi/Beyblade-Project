@@ -11,6 +11,9 @@ public class BeyCollision : MonoBehaviour {
 	private GameObject spark;
 	private BeySoundManager beySound;
 
+	private int damageMultiplier;
+	private int defenderDamageMultiplier;
+
 	public class Combat {
 
 		public Beyblade attacker, defender;
@@ -50,10 +53,23 @@ public class BeyCollision : MonoBehaviour {
 			if (canDamage && otherCanDamage) {
 				#region Damage
 
-				int damageMultiplier = combat.attacker.type == Attributes.Type.Attack ? combat.attacker.atributos.attack * 4 : 1;
-				damageMultiplier *= combat.defender.type == Attributes.Type.Stamina ? 2 : 1;
-				int defenderDamageMultiplier = combat.defender.type == Attributes.Type.Defense ? 6 : 1;
-				defenderDamageMultiplier *= combat.attacker.type == Attributes.Type.Stamina ? 2 : 1;
+				if (combat.attacker.type == Attributes.Type.Attack)
+					damageMultiplier = combat.attacker.atributos.attack * 4;
+				else if (combat.attacker.type == Attributes.Type.AtkDef || combat.attacker.type == Attributes.Type.AtkSta)
+					damageMultiplier = combat.attacker.atributos.attack * 2;
+				else
+					damageMultiplier = 1;
+				
+				damageMultiplier *= combat.defender.type == Attributes.Type.Stamina || combat.defender.type == Attributes.Type.AtkSta ? 2 : 1;
+
+				if (combat.defender.type == Attributes.Type.Defense)
+					defenderDamageMultiplier = 4;
+				else if (combat.defender.type == Attributes.Type.AtkDef || combat.defender.type == Attributes.Type.AtkSta)
+					defenderDamageMultiplier = 2;
+				else
+					defenderDamageMultiplier = 1;
+
+				defenderDamageMultiplier *= combat.attacker.type == Attributes.Type.Stamina || combat.defender.type == Attributes.Type.AtkSta ? 4 : 1;
 
 				combat.attacker.actualStamina -= DefenderDamage (combat.defender.atributos.defense, defenderDamageMultiplier);
 				combat.defender.actualStamina -= AttackerDamage (combat.attacker.atributos.attack, combat.defender.atributos.defense, damageMultiplier);
