@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MammothSpecial : BeySpecial {
+public class ThunderSpecial : BeySpecial {
 
 	public override void SpecialFX () {
 
 		base.SpecialFX ();
 
-		bey.transform.localScale = new Vector3 (1.3f,1.3f,1);
-		bey.actualStamina += 50;
+		float custoDeVida = (float)bey.actualStamina*0.8f;
+
+		bey.actualStamina -= (int)custoDeVida;
+
+		bey.atributos.attack *= 2;
 
 		StartCoroutine (SpecialTime ());
 	}
 
 	public override IEnumerator SpecialTime () {
 
-		yield return new WaitForSeconds (6);
-		bey.transform.localScale = Vector3.one;
+		yield return new WaitForSeconds (4);
 
+		bey.atributos.attack /= 2;
 
 	}
+
 
 }
