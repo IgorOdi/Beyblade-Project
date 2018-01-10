@@ -5,7 +5,7 @@ using UnityEngine;
 public class StaminaIA : IA {
 
 	private float timeCounter;
-	float distance;
+	private float distance;
 
 	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
 

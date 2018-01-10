@@ -8,7 +8,7 @@ public class ThunderSpecial : BeySpecial {
 
 		base.SpecialFX ();
 
-		float custoDeVida = (float)bey.actualStamina*0.8f;
+		float custoDeVida = (float)bey.actualStamina * 0.2f;
 
 		bey.actualStamina -= (int)custoDeVida;
 
@@ -24,6 +24,4 @@ public class ThunderSpecial : BeySpecial {
 		bey.atributos.attack /= 2;
 
 	}
-
-
 }

@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class PlayerControl : IA {
 
-	BeySpecial beySpecial;
-
-	void Start() {
-
-		beySpecial = GetComponent<BeySpecial> ();
-	}
-
 	void Update() {
 
 		if (Input.GetMouseButtonDown(0) && beySpecial.canSpecial) beySpecial.SpecialFX ();

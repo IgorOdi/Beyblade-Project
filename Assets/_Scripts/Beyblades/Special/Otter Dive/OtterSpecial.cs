@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OtterSpecial : BeySpecial {
+public class OtterSpecial : Beyblade {
 
 }

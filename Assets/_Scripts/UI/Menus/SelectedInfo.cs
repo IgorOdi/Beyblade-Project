@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SelectedInfo : MonoBehaviour {
 
-	public string name;
+	public new string name;
 	public string specialDesc;
 	public Image sprite;
 	public Attributes.Type type;
@@ -26,7 +26,7 @@ public class SelectedInfo : MonoBehaviour {
 	public void Atualiza(bool _unlocked) {
 
 		nameText.text = _unlocked ? name : "???";
-		typeText.text = _unlocked ? type.ToString () : "???";
+		typeText.text = _unlocked ? TypeString() : "???";
 		specialDescText.text = _unlocked ? specialDesc : "???";
 		spriteImage.sprite = sprite.sprite;
 		spriteImage.color = _unlocked ? Color.white : Color.black;
@@ -39,7 +39,8 @@ public class SelectedInfo : MonoBehaviour {
 		t = 0;
 		StartCoroutine (AttributesLerp ());
 	}
-	public IEnumerator AttributesLerp() {
+
+	private IEnumerator AttributesLerp() {
 
 		while (t < 1) {
 
@@ -52,5 +53,22 @@ public class SelectedInfo : MonoBehaviour {
 				yield return new WaitForSeconds (0.01f);
 			}
 		}
+	}
+
+	private string TypeString() {
+
+		switch (type) {
+
+		case Attributes.Type.AtkDef:
+			return "Attack and Defense";
+
+		case Attributes.Type.AtkSta:
+			return "Attack and Stamina";
+
+		case Attributes.Type.DefSta:
+			return "Defense and Stamina";
+		}
+
+		return type.ToString ();
 	}
 }

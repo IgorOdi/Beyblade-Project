@@ -4,23 +4,16 @@ using UnityEngine;
 
 public class DefenseIA : IA {
 
-	private Vector3 startPosition;
-	private float timer;
-
-	void Start() {
-
-		center = new Vector2 (0, 0);
-	}
-
 	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
 
 		base.Movimento (_speed, _maxStamina, _stamina);
+		_speed = _speed * (float)_stamina / _maxStamina * Time.deltaTime;
 
 		float distance = Vector2.Distance (transform.position, center);
 
-		if (distance > 0.01f * _stamina) {
+		if (distance > _stamina / 100) {
 
-			transform.position = Vector2.Lerp (transform.position, center, Time.deltaTime * _speed);
+			transform.position = Vector2.MoveTowards (transform.position, center, _speed);
 			gameObject.layer = 9;
 		} else {
 

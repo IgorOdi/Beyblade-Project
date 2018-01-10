@@ -28,9 +28,7 @@ public class BeySpecial : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 
-		if (other.gameObject.tag == "PowerUP") {
-
+		if (other.gameObject.tag == "PowerUP")
 			canSpecial = true;
-		}
 	}
 }

@@ -18,6 +18,7 @@ public class BeyCollision : MonoBehaviour {
 
 		public Beyblade attacker, defender;
 		public float beyVel, otherBeyVel;
+		public Rigidbody2D attackerRb, defenderRb;
 
 		public Combat(GameObject bey, GameObject otherBey) {
 
@@ -33,6 +34,9 @@ public class BeyCollision : MonoBehaviour {
 				attacker = otherBey.GetComponent<Beyblade>();
 				defender = bey.GetComponent<Beyblade>();
 			}
+
+			attackerRb = attacker.GetComponent<Rigidbody2D>();
+			defenderRb = defender.GetComponent<Rigidbody2D>();
 		}
 	}
 
@@ -50,8 +54,9 @@ public class BeyCollision : MonoBehaviour {
 			Combat combat = new Combat (gameObject, other.gameObject);
 			bool otherCanDamage = other.gameObject.GetComponent<BeyCollision> ().canDamage;
 
+			#region Damage
 			if (canDamage && otherCanDamage) {
-				#region Damage
+				
 
 				if (combat.attacker.type == Attributes.Type.Attack)
 					damageMultiplier = combat.attacker.atributos.attack * 4;
@@ -76,8 +81,9 @@ public class BeyCollision : MonoBehaviour {
 
 				canDamage = false;
 				StartCoroutine(DamageCooldown());
-				#endregion
+
 			}
+			#endregion
 
 			#region Impact
 
@@ -91,8 +97,8 @@ public class BeyCollision : MonoBehaviour {
 			float attackerMultiplier = combat.attacker.type == Attributes.Type.Attack ? 8 : 5;
 			float defenderMultiplier = combat.defender.type == Attributes.Type.Defense ? 8 : 2;
 
-			float defenderImpact = (Random.Range (0.6f, 1.6f) / (combat.defender.GetComponent<Rigidbody2D>().mass) * defenderMultiplier);
-			float attackerImpact = (Random.Range (0.6f, 1.6f) / (combat.attacker.GetComponent<Rigidbody2D> ().mass) * attackerMultiplier);
+			float attackerImpact = (Random.Range (0.6f, 1.6f) / combat.attackerRb.mass * attackerMultiplier);
+			float defenderImpact = (Random.Range (0.6f, 1.6f) / combat.defenderRb.mass * defenderMultiplier);
 
 			StartCoroutine(Impact(combat.attacker.gameObject, attackerImpact/2));
 			StartCoroutine(Impact(combat.defender.gameObject, defenderImpact));
@@ -138,7 +144,7 @@ public class BeyCollision : MonoBehaviour {
 
 	public int AttackerDamage(int attack, int defense, int damageMultiplier) {
 
-		int dmg = ((attack - defense) + damageMultiplier)/2;
+		int dmg = ((attack - defense) + damageMultiplier) / 2;
 		if (dmg <= 0) dmg = 1;
 		return dmg;
 	}

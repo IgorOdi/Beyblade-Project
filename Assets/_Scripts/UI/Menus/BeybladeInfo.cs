@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BeybladeInfo: MonoBehaviour {
 
 	[HideInInspector]
-	public string name;
+	public new string name;
 	[HideInInspector]
 	public Image sprite;
 	public Attributes.Type type;

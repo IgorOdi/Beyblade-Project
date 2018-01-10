@@ -6,6 +6,7 @@ public class AtkStaIA : IA {
 
 	private float timeCounter, distance;
 	private int sideMultiplier = 1;
+	private int hitCounter;
 
 	void Start() {
 
@@ -40,5 +41,18 @@ public class AtkStaIA : IA {
 		yield return new WaitForSeconds (6);
 		sideMultiplier *= -1;
 		StartCoroutine (ChangeDirection ());
+	}
+
+	void OnCollisionEnter2D(Collision2D other) {
+
+		if (other.gameObject.tag == "Beyblade") {
+
+			hitCounter++;
+
+			if (hitCounter >= 4) {
+				sideMultiplier *= -1;
+				hitCounter = 0;
+			}
+		}
 	}
 }

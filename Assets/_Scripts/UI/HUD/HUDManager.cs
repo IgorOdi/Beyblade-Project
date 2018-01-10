@@ -5,22 +5,25 @@ using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour {
 
-	BeyManager beyManager;
-	Beyblade[] beys;
+	private Beyblade[] beys;
+	private BeySpecial[] beySpecials;
+	private int beyCount;
 	public Image[] staminaBar;
 	public Image[] hudBey;
 	public GameObject[] sparkHUD;
 
 	public void DefineBeys() {
 
-		beyManager = FindObjectOfType<BeyManager> ();
+		beyCount = BeyManager.instance.inGameBeys.Count;
 
-		beys = new Beyblade[beyManager.inGameBeys.Count];
+		beys = new Beyblade[beyCount];
+		beySpecials = new BeySpecial[beyCount];
 
-		for (int i = 0; i < beyManager.inGameBeys.Count; i++) {
+		for (int i = 0; i < beyCount; i++) {
 			
 			staminaBar [i].transform.parent.gameObject.SetActive (true);
-			beys [i] = beyManager.inGameBeys [i].GetComponent<Beyblade> ();
+			beys [i] = BeyManager.instance.inGameBeys [i].GetComponent<Beyblade> ();
+			beySpecials [i] = beys [i].GetComponent<BeySpecial> ();
 		}
 
 		DefineHUDSprite ();
@@ -28,20 +31,18 @@ public class HUDManager : MonoBehaviour {
 
 	void DefineHUDSprite() {
 
-		for (int i = 0; i < beyManager.inGameBeys.Count; i++) {
-			SpriteRenderer beyRend = beyManager.inGameBeys [i].GetComponentInChildren<SpriteRenderer> ();
+		for (int i = 0; i < beyCount; i++) {
+			SpriteRenderer beyRend = BeyManager.instance.inGameBeys [i].GetComponentInChildren<SpriteRenderer> ();
 			hudBey[i].sprite = beyRend.sprite;
 		}
 	}
 
 	void Update() {
 
-		for (int i = 0; i < beyManager.inGameBeys.Count; i++) {
+		for (int i = 0; i < BeyManager.instance.inGameBeys.Count; i++) {
 
 			staminaBar[i].fillAmount = (float)beys[i].actualStamina / beys[i].atributos.stamina;
-
-			bool activeSpark = beys[i].GetComponent<BeySpecial> ().canSpecial;
-			sparkHUD[i].SetActive (activeSpark);
+			sparkHUD[i].SetActive (beySpecials [i].canSpecial);
 		}
 	}
 }
