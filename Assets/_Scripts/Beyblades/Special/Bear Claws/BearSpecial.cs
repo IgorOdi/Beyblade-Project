@@ -19,7 +19,5 @@ public class BearSpecial : BeySpecial {
 			Instantiate (espinho, transform.position, local [i].rotation);
 
 		}
-
 	}
-
 }

@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class Espinho : MonoBehaviour {
 
-	 Vector3 tamanho;
+	Vector3 tamanho;
 	private float x;
 
-	// Use this for initialization
 	void Start () {
 
 		Destroy (gameObject, 4);
 		x = 0;
 	}
-
-	// Update is called once per frame
+		
 	void Update () {
 
 		tamanho = new Vector3 (transform.localScale.x+x,transform.localScale.y+x,transform.localScale.z);
@@ -23,7 +21,7 @@ public class Espinho : MonoBehaviour {
 
 		transform.localScale = tamanho;
 
-		transform.Translate ( 0, 1f*Time.deltaTime , 0 );
+		transform.Translate ( 0, 1f * Time.deltaTime , 0 );
 		
 	}
 

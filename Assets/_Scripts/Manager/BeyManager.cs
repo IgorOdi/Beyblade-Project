@@ -80,15 +80,12 @@ public class BeyManager : MonoBehaviour {
 
 			Vector2 spawnPoint;
 
-			if (inGameBeys [i].GetComponent<Beyblade> ().type == Attributes.Type.Attack) {
-				
-				spawnPoint = RandomPosition (3, 3);
-			} else if (inGameBeys [i].GetComponent<Beyblade> ().type == Attributes.Type.Defense) {
+			if (inGameBeys [i].GetComponent<Beyblade> ().type == Attributes.Type.Defense) {
 
-				spawnPoint = RandomPosition (1.5f, 1.5f);
+				spawnPoint = Random.insideUnitCircle * 1.5f;
 			} else {
 
-				spawnPoint = new Vector2 (4, 0);
+				spawnPoint = Random.insideUnitCircle * 4;
 			}
 				
 			GameObject spawnedBey = Instantiate (inGameBeys[i], spawnPoint, Quaternion.identity);
@@ -153,14 +150,6 @@ public class BeyManager : MonoBehaviour {
 			
 		hudManager.DefineBeys ();
 		GetComponent<SpecialSpawn> ().Spawn ();
-	}
-
-	public Vector2 RandomPosition(float x, float y) {
-
-		float _x = Random.Range(-x, x);
-		float _y = Random.Range (-y, y);
-
-		return new Vector2 (_x, _y);
 	}
 
 	public void RemoveInGameBey(GameObject _beyToRemove) {
