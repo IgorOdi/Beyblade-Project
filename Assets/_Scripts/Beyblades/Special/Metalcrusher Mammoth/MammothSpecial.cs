@@ -8,7 +8,7 @@ public class MammothSpecial : BeySpecial {
 
 		base.SpecialFX ();
 
-		bey.transform.localScale = new Vector3 (1.3f,1.3f,1);
+		bey.transform.localScale = new Vector3 (1.5f,1.5f,1);
 		bey.actualStamina += 50;
 
 		StartCoroutine (SpecialTime ());

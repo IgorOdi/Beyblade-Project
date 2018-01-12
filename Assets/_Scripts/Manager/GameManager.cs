@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
 		Unlock ("Mud Crab");
 //		Unlock ("Speedy Falcon");
 		Unlock ("Thunder Tiger");
+		Unlock ("Black Widow");
 
 		StartGame ();
 	}
