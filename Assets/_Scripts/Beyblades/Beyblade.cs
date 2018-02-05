@@ -35,7 +35,7 @@ public class Beyblade : MonoBehaviour {
 		if (ia != null || actualStamina > 0) {
 
 			ia.RotationSpeed ((float)actualStamina, atributos.stamina);
-			ia.Movimento (actualSpeed, atributos.stamina, actualStamina);
+			ia.Movement (actualSpeed, atributos.stamina, actualStamina);
 		}
 	}
 

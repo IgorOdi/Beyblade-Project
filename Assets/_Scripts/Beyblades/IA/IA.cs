@@ -16,7 +16,7 @@ public abstract class IA : MonoBehaviour {
 		beySpecial = GetComponent<BeySpecial> ();
 	}
 
-	public virtual void Movimento(float _speed, int _maxStamina, int _stamina) {
+	public virtual void Movement (float _speed, int _maxStamina, int _stamina) {
 
 		if (beySpecial.canSpecial)
 			beySpecial.SpecialFX ();

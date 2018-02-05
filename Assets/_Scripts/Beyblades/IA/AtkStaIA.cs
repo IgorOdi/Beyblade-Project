@@ -14,9 +14,9 @@ public class AtkStaIA : IA {
 		distance = Vector2.Distance (transform.position, center);
 	}
 
-	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
+	public override void Movement (float _speed, int _maxStamina, int _stamina) {
 
-		base.Movimento (_speed, _maxStamina, _stamina);
+		base.Movement (_speed, _maxStamina, _stamina);
 
 		_speed = _speed / 1.5f;
 

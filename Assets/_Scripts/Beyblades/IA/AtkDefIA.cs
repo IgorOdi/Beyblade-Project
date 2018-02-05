@@ -97,9 +97,9 @@ public class AtkDefIA : IA {
 			return null;
 	}
 
-	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
+	public override void Movement (float _speed, int _maxStamina, int _stamina) {
 
-		base.Movimento (_speed, _maxStamina, _stamina);
+		base.Movement (_speed, _maxStamina, _stamina);
 
 		if (target == null) {
 
