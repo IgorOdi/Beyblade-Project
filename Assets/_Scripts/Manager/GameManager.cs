@@ -21,9 +21,9 @@ public class GameManager : MonoBehaviour {
 		Unlock ("Bull Slap");
 		Unlock ("Bear Claws");
 		Unlock ("Metalcrusher Mammoth");
-//		Unlock ("Dragonfly Dawn");
-//		Unlock ("Otter Dive");
-//		Unlock ("Mud Crab");
+		Unlock ("Dragonfly Dawn");
+		Unlock ("Otter Dive");
+		Unlock ("Mud Crab");
 //		Unlock ("Speedy Falcon");
 //		Unlock ("Thunder Tiger");
 //		Unlock ("Black Widow");
