@@ -7,9 +7,9 @@ public class StaminaIA : IA {
 	private float timeCounter;
 	private float distance;
 
-	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
+	public override void Movement (float _speed, int _maxStamina, int _stamina) {
 
-		base.Movimento (_speed, _maxStamina, _stamina);
+		base.Movement (_speed, _maxStamina, _stamina);
 
 		distance = Vector2.Distance (transform.position, center);
 

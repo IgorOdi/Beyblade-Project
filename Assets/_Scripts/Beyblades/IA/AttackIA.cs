@@ -15,11 +15,32 @@ public class AttackIA : IA {
 
 		beybladeList = new List<Beyblade> (BeyManager.instance.inGameBeys.Count);
 
-		foreach (GameObject bey in BeyManager.instance.inGameBeys) {
+		if (GameManager.matchMode.singleplayerMode == SingleplayerMode.DuoMode) {
 
-			if (bey.name != gameObject.name) {
-				Beyblade elegibleBey = bey.GetComponent<Beyblade> ();
-				beybladeList.Add (elegibleBey);
+			if (TeamManager.instance.Check (gameObject, TeamManager.instance.team [0])) {
+
+				foreach (GameObject bey in TeamManager.instance.team[0].beys) {
+
+					Beyblade elegibleBey = bey.GetComponent<Beyblade> ();
+					beybladeList.Add (elegibleBey);
+				}
+			} else {
+
+				foreach (GameObject bey in TeamManager.instance.team[1].beys) {
+
+					Beyblade elegibleBey = bey.GetComponent<Beyblade> ();
+					beybladeList.Add (elegibleBey);
+				}
+			}
+		} else {
+
+			foreach (GameObject bey in BeyManager.instance.inGameBeys) {
+
+				if (bey.name != gameObject.name) {
+
+					Beyblade elegibleBey = bey.GetComponent<Beyblade> ();
+					beybladeList.Add (elegibleBey);
+				}
 			}
 		}
 
@@ -50,15 +71,15 @@ public class AttackIA : IA {
 		
 		limitTimer = Random.Range (2, 4);
 
-		if (beybladeList.Count > 0) 
+		if (beybladeList.Count > 0)
 			return beybladeList [Random.Range (0, beybladeList.Count)].gameObject;
 		
 		return null;
 	}
 
-	public override void Movimento (float _speed, int _maxStamina, int _stamina) {
+	public override void Movement (float _speed, int _maxStamina, int _stamina) {
 
-		base.Movimento (_speed, _maxStamina, _stamina);
+		base.Movement (_speed, _maxStamina, _stamina);
 
 		if (target == null) {
 

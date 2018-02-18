@@ -8,8 +8,11 @@ public class BeyManager : MonoBehaviour {
 	public static string SelectedBey;
 	public List<GameObject> inGameBeys;
 	public GameObject[] indicator;
-	public HUDManager hudManager;
-	public EndGame endGame;
+	private HUDManager hudManager;
+	[SerializeField]
+	private EndGame endGame;
+	[SerializeField]
+	private GameObject teamManager;
 	private int beyNumber;
 	private int winCondition;
 
@@ -140,13 +143,9 @@ public class BeyManager : MonoBehaviour {
 			beyCode.atributos.staminaDecay = 4;
 		}
 
-		if (GameManager.matchMode.singleplayerMode == SingleplayerMode.DuoMode) {
+		if (GameManager.matchMode.singleplayerMode == SingleplayerMode.DuoMode)
+			Instantiate (teamManager);
 
-			indicator [1].transform.SetParent (inGameBeys [1].transform, false);
-			indicator [1].SetActive (true);
-			Physics2D.IgnoreCollision (inGameBeys [0].GetComponent<Collider2D> (), inGameBeys [1].GetComponent<Collider2D> ());
-			Physics2D.IgnoreCollision (inGameBeys [2].GetComponent<Collider2D> (), inGameBeys [3].GetComponent<Collider2D> ());
-		}
 			
 		hudManager.DefineBeys ();
 		GetComponent<SpecialSpawn> ().Spawn ();
