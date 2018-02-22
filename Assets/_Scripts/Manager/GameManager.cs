@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		DontDestroyOnLoad (gameObject);
 
-		Unlock ("Bull Slap");
+		Unlock ("Bull Strike");
 		Unlock ("Bear Claws");
 		Unlock ("Metalcrusher Mammoth");
 		Unlock ("Dragonfly Dawn");
