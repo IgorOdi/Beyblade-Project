@@ -21,7 +21,7 @@ public class Espinho : MonoBehaviour {
 
 		transform.localScale = tamanho;
 
-		transform.Translate ( 0, 1f * Time.deltaTime , 0 );
+		transform.Translate (0, 5f * Time.deltaTime , 0 );
 		
 	}
 
@@ -33,7 +33,7 @@ public class Espinho : MonoBehaviour {
 
 			Beyblade beyblade = hit.gameObject.GetComponent<Beyblade>();
 
-			beyblade.actualStamina -= 25;
+			beyblade.actualStamina -= 40;
 		}
 	
 	}

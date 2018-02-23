@@ -51,20 +51,17 @@ public class Beyblade : MonoBehaviour {
 			timeCounter = 0;
 		}
 
-		if ((actualStamina <= 0  || distance > 5) && inGame) {
-
-			OutGame ();
-			inGame = false;
-		}
+		if ((actualStamina <= 0  || distance > 5) && inGame) OutGame ();
 	}
 
 	void OutGame() {
 
+		inGame = false;
 		ia.enabled = false;
 		GetComponent<Collider2D> ().enabled = false;
 		GetComponentInChildren<SpriteRenderer> ().color = new Vector4 (1, 1, 1, 0.5f);
 
-		BeyManager beyManager = FindObjectOfType<BeyManager> ();
-		beyManager.RemoveInGameBey (gameObject);
+		BeyManager.instance.RemoveInGameBey (gameObject);
+		Destroy (gameObject, 2f);
 	}
 }

@@ -16,7 +16,6 @@ public class MainMenu : MonoBehaviour {
 		button [0].onClick.AddListener (Campanha);
 		button [1].onClick.AddListener (Exibicao);
 		button [2].onClick.AddListener (Instru);
-		button [3].onClick.AddListener (Creditos);
 	}
 
 	void Campanha() {

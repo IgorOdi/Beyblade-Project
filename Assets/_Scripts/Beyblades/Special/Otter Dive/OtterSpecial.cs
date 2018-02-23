@@ -9,8 +9,8 @@ public class OtterSpecial : BeySpecial {
 
 	private const float halfAlpha = 0.5f;
 	private const float fullAlpha = 1;
-
 	private const int beyLayer = 8;
+	private const int explosionDamage = 30;
 
 	public override void SpecialFX () {
 		
@@ -43,8 +43,8 @@ public class OtterSpecial : BeySpecial {
 
 		for (int i = 0; i < beys.Length; i++) {
 
-			Beyblade bey = beys [i].gameObject.GetComponent<Beyblade> ();
-			bey.actualStamina -= 30;
+			Beyblade _bey = beys [i].gameObject.GetComponent<Beyblade> ();
+			_bey.actualStamina -= explosionDamage;
 		}
 	}
 }
