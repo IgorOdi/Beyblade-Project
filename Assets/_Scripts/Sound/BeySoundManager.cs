@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class BeySoundManager : MonoBehaviour {
 
+	[SerializeField]
 	private AudioSource source;
 	public AudioClip[] collisionSounds;
 	public AudioClip specialSound;
-
-	void Awake() {
-
-		source = GetComponent<AudioSource> ();
-	}
 
 	public void PlayCollisionSound() {
 
@@ -23,7 +19,7 @@ public class BeySoundManager : MonoBehaviour {
 
 	public void PlaySpecialSound() {
 
-		source.volume = 1;
+		source.volume = 0.5f;
 		source.clip = specialSound;
 		source.Play ();
 	}
